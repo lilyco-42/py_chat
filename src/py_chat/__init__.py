@@ -11,12 +11,16 @@ def main() -> None:
 
     while True:
         c, addr = s.accept()
-        print(f"{c}.|{addr}|")
-        while True:
-            data = c.recv(1024)
-            print(data.decode("utf-8"))
-            c.send(data.upper())
-        s.close()
+        data = c.recv(1024)
+        c.send(
+            b"HTTP/1.1 200 OK\r\n"
+            b"Content-Type: text/plain; charset=utf-8\r\n"
+            b"Content-Length: 13\r\n"
+            b"Connection: close\r\n"
+            b"\r\n"
+            b"Hello, World!"
+        )
+        c.close()
 
 
 if __name__ == "__main__":
